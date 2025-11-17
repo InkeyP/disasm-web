@@ -1,12 +1,18 @@
 <script setup lang="ts">
 // eslint-disable-next-line import/no-unresolved
 import { useRegisterSW } from 'virtual:pwa-register/vue'
+import { ref } from 'vue'
 
-const {
-  offlineReady,
-  needRefresh,
-  updateServiceWorker,
-} = useRegisterSW()
+let offlineReady = ref(false)
+let needRefresh = ref(false)
+let updateServiceWorker = () => {}
+
+if (location.protocol !== 'file:') {
+  const sw = useRegisterSW()
+  offlineReady = sw.offlineReady
+  needRefresh = sw.needRefresh
+  updateServiceWorker = sw.updateServiceWorker
+}
 
 function close() {
   offlineReady.value = false

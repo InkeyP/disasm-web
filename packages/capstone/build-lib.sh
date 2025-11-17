@@ -12,6 +12,8 @@ ARCHS=(
   ARM
   ARM64
   X86
+  MIPS
+  LOONGARCH
 )
 
 BUILD_FLAGS=(

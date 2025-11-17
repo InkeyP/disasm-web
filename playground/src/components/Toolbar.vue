@@ -12,6 +12,12 @@ export type ArchMode = {
 } | {
   arch: 'x86'
   mode: '16' | '32' | '64'
+} | {
+  arch: 'mips'
+  mode: '32' | '64'
+} | {
+  arch: 'loongarch'
+  mode: '64'
 }
 
 export interface Options {
@@ -39,6 +45,7 @@ const ALL_OPTIONS: {
     name: string
     mode: ArchMode['mode']
   }[]
+  enabled?: boolean
 }[] = [
   {
     name: 'ARM',
@@ -85,6 +92,33 @@ const ALL_OPTIONS: {
       },
     ],
   },
+  {
+    name: 'MIPS',
+    arch: 'mips',
+    defaultMode: 0,
+    modes: [
+      {
+        name: '32-bit',
+        mode: '32',
+      },
+      {
+        name: '64-bit',
+        mode: '64',
+      },
+    ],
+  },
+  {
+    name: 'LoongArch',
+    arch: 'loongarch',
+    defaultMode: 0,
+    modes: [
+      {
+        name: '64-bit',
+        mode: '64',
+      },
+    ],
+    enabled: false,
+  },
 ]
 
 const allowedExtraModes = computed(() => {
@@ -98,6 +132,10 @@ const allowedExtraModes = computed(() => {
       break
     case 'arm64':
     case 'x86':
+    case 'loongarch':
+      break
+    case 'mips':
+      modes.push(ExtraModeKey.BIG_ENDIAN)
       break
     default:
       break
@@ -218,6 +256,7 @@ const EXTRA_MODES = [
             v-for="arch in ALL_OPTIONS"
             :key="arch.arch"
             :value="arch.arch"
+            :disabled="arch.enabled === false"
           >
             {{ arch.name }}
           </option>

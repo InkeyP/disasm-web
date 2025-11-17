@@ -12,6 +12,7 @@ ARCHS=(
   AArch64
   ARM
   X86
+  MIPS
 )
 
 BUILD_FLAGS=(

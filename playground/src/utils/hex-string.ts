@@ -17,7 +17,7 @@ export function parseHexString(hexString: string) {
 export function toHexString(bytes: Uint8Array): string {
   const result: string[] = []
   bytes.forEach((byte, index) => {
-    if (index > 0 && index % 16 === 0) {
+    if (index > 0 && index % 8 === 0) {
       result.push('\n')
     }
     result.push(byte.toString(16).toUpperCase().padStart(2, '0'))
